@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #f4effe;
+  --color-primary-100: #e8dffd;
+  --color-primary-200: #d0bffb;
+  --color-primary-300: #b08ff7;
+  --color-primary-400: #9664f0;
+  --color-primary-500: #7E46EA;
+  --color-primary-600: #7E46EA;
+  --color-primary-700: #6535c8;
+  --color-primary-800: #4f28a0;
+  --color-primary-900: #3a1d78;
+  --color-primary-950: #1e0d45;
+
+  --color-purple-50: #f4effe;
+  --color-purple-100: #e8dffd;
+  --color-purple-200: #d0bffb;
+  --color-purple-300: #b08ff7;
+  --color-purple-400: #9664f0;
+  --color-purple-500: #7E46EA;
+  --color-purple-600: #7E46EA;
+  --color-purple-700: #6535c8;
+  --color-purple-800: #4f28a0;
+  --color-purple-900: #3a1d78;
+  --color-purple-950: #1e0d45;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7E46EA;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6c35d4;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #ffffff;
+  color: #111111;
+}
+
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease forwards;
+}
