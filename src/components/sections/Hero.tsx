@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react'
+import logo from '../../assets/logo.png'
 
 export function Hero() {
   return (
@@ -46,7 +47,7 @@ export function Hero() {
           {/* Coluna direita — logo */}
           <div className="hidden lg:flex flex-1 items-center justify-center">
             <img
-              src="https://cafebugado.com.br/logo.png"
+              src={logo}
               alt="Café Bugado"
               className="w-full max-w-sm object-contain"
             />
