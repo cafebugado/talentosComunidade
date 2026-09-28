@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ExternalLink, Coffee, Users, Zap } from 'lucide-react'
+import logoElemento from '../../assets/logoElemento.png'
 
 interface WelcomeModalProps {
   name: string
@@ -60,7 +61,7 @@ export function WelcomeModal({ name, onClose }: WelcomeModalProps) {
         {/* Ícone flutuante */}
         <div className="flex justify-center -mt-7 relative z-10">
           <div className="w-14 h-14 bg-white rounded-2xl shadow-lg border border-gray-100 flex items-center justify-center p-1.5">
-            <img src="https://cafebugado.com.br/logo.png" alt="Café Bugado" className="w-full h-full object-contain" />
+            <img src={logoElemento} alt="Café Bugado" className="w-full h-full object-contain" />
           </div>
         </div>
 
