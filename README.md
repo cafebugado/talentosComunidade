@@ -53,18 +53,12 @@ VITE_SUPABASE_ANON_KEY=sua_chave_anonima_aqui
 1. Acesse [app.supabase.com](https://app.supabase.com)
 2. Crie um novo projeto ou use um existente
 3. Vá em **SQL Editor**
-4. Execute os arquivos na ordem abaixo:
-
-```
-sql/schema.sql                              # Cria a tabela, trigger, RLS e índices
-sql/migration_001_remove_profile_image.sql  # Remove coluna profile_image_url
-sql/migration_002_unique_constraints.sql    # Adiciona constraints únicos
-```
+4. Execute o conteúdo de `sql/schema.sql`
 
 O schema irá:
 - Criar a tabela `community_members`
 - Configurar o trigger automático de `updated_at`
-- Habilitar RLS com policies de INSERT público e SELECT autenticado
+- Habilitar RLS com policies de INSERT público e SELECT público/autenticado
 - Criar índices de performance
 - Adicionar constraints únicos para nome, e-mail, LinkedIn e GitHub
 
@@ -103,9 +97,7 @@ src/
 ├── constants/        # Áreas, níveis, estados BR
 └── utils/            # Máscara de WhatsApp
 sql/
-├── schema.sql
-├── migration_001_remove_profile_image.sql
-└── migration_002_unique_constraints.sql
+└── schema.sql        # Schema completo (tabela, trigger, índices, RLS)
 ```
 
 ## Campos do formulário

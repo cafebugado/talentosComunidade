@@ -1,13 +1,14 @@
 -- =============================================
 -- Café Bugado – Schema do banco de dados
 -- Execute este SQL no Supabase SQL Editor
+-- Pode ser executado mais de uma vez sem erro
 -- =============================================
 
--- Tabela principal
+-- Tabela principal (estado final)
 CREATE TABLE IF NOT EXISTS public.community_members (
   id                uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   full_name         text NOT NULL,
-  email             text NOT NULL UNIQUE,
+  email             text NOT NULL,
   city              text NOT NULL,
   uf                text NOT NULL,
   interest_area     text NOT NULL,
@@ -19,10 +20,13 @@ CREATE TABLE IF NOT EXISTS public.community_members (
   job_title         text,
   experience_level  text,
   availability      text,
-  profile_image_url text,
   terms_accepted    boolean NOT NULL DEFAULT false,
   created_at        timestamptz NOT NULL DEFAULT now(),
-  updated_at        timestamptz NOT NULL DEFAULT now()
+  updated_at        timestamptz NOT NULL DEFAULT now(),
+  CONSTRAINT community_members_email_key        UNIQUE (email),
+  CONSTRAINT community_members_full_name_key    UNIQUE (full_name),
+  CONSTRAINT community_members_linkedin_url_key UNIQUE (linkedin_url),
+  CONSTRAINT community_members_github_url_key   UNIQUE (github_url)
 );
 
 -- Trigger para atualizar updated_at automaticamente
@@ -34,6 +38,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS on_community_members_updated ON public.community_members;
 CREATE TRIGGER on_community_members_updated
   BEFORE UPDATE ON public.community_members
   FOR EACH ROW
@@ -49,29 +54,25 @@ CREATE INDEX IF NOT EXISTS idx_community_members_created_at ON public.community_
 ALTER TABLE public.community_members ENABLE ROW LEVEL SECURITY;
 
 -- Policy: permite INSERT público (cadastro sem autenticação)
+DROP POLICY IF EXISTS "allow_public_insert" ON public.community_members;
 CREATE POLICY "allow_public_insert"
   ON public.community_members
   FOR INSERT
   TO anon
   WITH CHECK (true);
 
--- Policy: leitura apenas para usuários autenticados (admin)
+-- Policy: leitura para usuários autenticados (admin)
+DROP POLICY IF EXISTS "allow_authenticated_select" ON public.community_members;
 CREATE POLICY "allow_authenticated_select"
   ON public.community_members
   FOR SELECT
   TO authenticated
   USING (true);
 
--- =============================================
--- Supabase Storage – Bucket para fotos de perfil
--- =============================================
-INSERT INTO storage.buckets (id, name, public)
-VALUES ('profile-images', 'profile-images', true)
-ON CONFLICT (id) DO NOTHING;
-
--- Policy de upload público para o bucket
-CREATE POLICY "allow_public_upload"
-  ON storage.objects
-  FOR INSERT
+-- Policy: leitura pública (existia no projeto antigo, criada pelo painel)
+DROP POLICY IF EXISTS "allow_public_select" ON public.community_members;
+CREATE POLICY "allow_public_select"
+  ON public.community_members
+  FOR SELECT
   TO anon
-  WITH CHECK (bucket_id = 'profile-images');
+  USING (true);
